@@ -1,0 +1,26 @@
+<div class="content" role="main">
+  <div class="card-container" >
+    <div class="card card-small" tabindex="0" *ngFor="let course of courses" (click)="showStudentsByCourse(course.id)">
+      <span>{{course.name}}</span>
+      <span>{{course.schedule}}</span>
+    </div>
+  </div>
+  <div class="card-container" >
+    <div class="card card-small" tabindex="0" *ngFor="let student of students" (click)=" showSessionsByStudent(student.id)">
+      <span>{{student.name}}</span>
+    </div>
+  </div>
+  <div class="terminal" [ngSwitch]="selection">
+    <div *ngFor="let student of students">
+      <pre *ngSwitchCase="student.id">
+        <a>Nombre: {{student.name}}</a>
+        <a *ngIf=student.email>Email: {{student.email}}</a>
+        <a *ngIf=!student.email style="display: block; margin-left: 56px;">|Fecha|Temperatura|Luminosidad|Sonido|</a>
+        <a style="display: block; margin-left: 56px;" *ngFor="let session of sessions">|{{session.date}}|{{session.temperature}}|{{session.luminosity}}|{{session.noise}}|</a>
+      </pre>
+    </div>
+    <pre *ngSwitchDefault>Ningún estudiante seleccionado</pre>
+  </div>
+</div>
+
+

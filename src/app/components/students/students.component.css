@@ -107,8 +107,12 @@ svg.material-icons:not(:last-child) {
 }
 
 .card.card-small {
-  height: 16px;
+  height: 50px;
   width: 168px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
 }
 
 .card-container .card:not(.highlight-card) {
@@ -166,7 +170,7 @@ a:hover {
 
 .terminal {
   position: relative;
-  width: 80%;
+  width: 100%;
   max-width: 600px;
   border-radius: 6px;
   padding-top: 45px;
