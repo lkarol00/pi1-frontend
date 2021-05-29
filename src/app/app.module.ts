@@ -12,7 +12,7 @@ import { CoursesService } from './services/courses.service';
 import { LoginComponent } from './components/login/login.component';
 import { ActualSessionComponent } from './components/actual-session/actual-session.component';
 import { LastSessionComponent } from './components/last-session/last-session.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,12 +21,13 @@ import { LastSessionComponent } from './components/last-session/last-session.com
     CoursesComponent,
     LoginComponent,
     ActualSessionComponent,
-    LastSessionComponent
+    LastSessionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [StudentsService, CoursesService],
   bootstrap: [AppComponent]

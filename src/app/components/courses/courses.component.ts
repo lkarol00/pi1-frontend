@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
@@ -11,15 +12,16 @@ export class CoursesComponent implements OnInit {
 
   courses: any;
 
-  constructor(private courseService: CoursesService, private router: Router)  { }
+  constructor(private courseService: CoursesService, private router: Router, private authService: AuthService)  { }
 
   ngOnInit(): void {
     this.showCourses();
   }
 
   showCourses() {
-    this.courseService.getCourses(1).subscribe(results => {
+    this.courseService.getCourses(parseInt(this.authService.professor.id)).subscribe(results => {
       this.courses = results;
     });
+    console.log(this.authService.professor, "hola");
   }
 }
