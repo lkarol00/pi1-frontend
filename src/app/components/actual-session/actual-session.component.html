@@ -1,0 +1,11 @@
+<div class="content" role="main">
+  <div class="terminal">
+
+      <a>Nombre: {{student.name}}</a> <hr>
+      <a *ngIf=student.email>Email: {{student.email}}</a> <hr>
+      <a *ngIf=student.email style="display: block; margin-left: 56px;">|Fecha|Temperatura|Luminosidad|Sonido|</a>
+      <a style="display: block; margin-left: 56px;" *ngFor="let session of sessions">|{{session.date}}|{{session.temperature}}|{{session.luminosity}}|{{session.noise}}|</a>
+
+    <!--<pre *ngSwitchDefault>Ningún estudiante seleccionado</pre>-->
+  </div>
+</div>

@@ -1,7 +1,8 @@
 <div class="content" role="main">
   <div class="card-container" >
-    <div class="card card-small" tabindex="0" *ngFor="let course of courses">
+    <div class="card card-small" tabindex="0" [routerLink]="['/students']" [queryParams]="{ courseId: course.id}" *ngFor="let course of courses"> <!--course.id-->
       <span>{{course.name}}</span>
+      <span>{{course.schedule}}</span>
     </div>
   </div>
 </div>

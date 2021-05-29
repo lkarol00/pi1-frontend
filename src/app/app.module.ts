@@ -9,13 +9,19 @@ import { StudentsComponent } from './components/students/students.component';
 import { StudentsService } from './services/students.service';
 import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesService } from './services/courses.service';
+import { LoginComponent } from './components/login/login.component';
+import { ActualSessionComponent } from './components/actual-session/actual-session.component';
+import { LastSessionComponent } from './components/last-session/last-session.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentsComponent,
-    CoursesComponent
+    CoursesComponent,
+    LoginComponent,
+    ActualSessionComponent,
+    LastSessionComponent
   ],
   imports: [
     BrowserModule,

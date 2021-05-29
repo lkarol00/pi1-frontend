@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from 'src/app/services/courses.service';
 import { StudentsService } from '../../services/students.service';
 
@@ -14,12 +15,22 @@ export class StudentsComponent implements OnInit {
   selectedCourse:any = null;
   selection: any;
   sessions: any;
+  courseId: any;
+  sub: any;
 
-  constructor(private studentService: StudentsService, private courseService: CoursesService)  { }
+  constructor(private studentService: StudentsService, private courseService: CoursesService,
+              private activatedRoute: ActivatedRoute, private router: Router)  { }
 
   ngOnInit(): void {
-    this.showCourses();
-    this.showStudents();
+    //this.showCourses();
+    //this.showStudents();
+    this.activatedRoute
+            .queryParams
+            .subscribe(params => {
+              // Defaults to 0 if no query param provided.
+              this.courseId = +params['courseId'] || 0;
+              this.showStudentsByCourse(this.courseId);
+            });
   }
 
   showStudents() {
@@ -50,7 +61,6 @@ export class StudentsComponent implements OnInit {
         this.sessions = results;
       });
     }
-
   }
 
 }

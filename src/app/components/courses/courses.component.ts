@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class CoursesComponent implements OnInit {
 
   courses: any;
 
-  constructor(private courseService: CoursesService)  { }
+  constructor(private courseService: CoursesService, private router: Router)  { }
 
   ngOnInit(): void {
     this.showCourses();
@@ -18,10 +19,7 @@ export class CoursesComponent implements OnInit {
 
   showCourses() {
     this.courseService.getCourses(1).subscribe(results => {
-      console.log(results);
-
       this.courses = results;
     });
   }
-
 }

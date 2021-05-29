@@ -21,6 +21,11 @@ export class StudentsService {
     return this.http.get<any>(path);
   }
 
+  getStudent(studentId: number){
+    const path = this.api + "student/?studentId=" + studentId;
+    return this.http.get<any>(path);
+  }
+
   getSessionByStudent(studentId: number, courseId: number){
     const path = this.api + "session/?courseId=" + courseId + "&studentId=" + studentId;
     return this.http.get<any>(path);
