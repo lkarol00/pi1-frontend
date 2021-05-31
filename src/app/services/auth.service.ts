@@ -7,8 +7,6 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  res: any;
-  exp:any;
   professor = {
     name: '',
     email: '',
