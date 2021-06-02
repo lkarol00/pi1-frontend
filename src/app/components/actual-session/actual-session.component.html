@@ -1,0 +1,25 @@
+
+  
+
+      <a *ngIf=student.email>Email: {{student.email}}</a> <hr>
+  
+  
+  <h1 href="#" class="list-group-item list-group-item-action active"><strong>NOMBRE: {{student.name}}</strong></h1>
+  <table class="table table-hover" >
+    <tbody>
+      <tr class="table-secondary">
+        <th scope="row">Variable</th>
+        <td>Tempertura</td>
+        <td>Ruido</td>
+        <td>Temperatura</td>
+        <td>Luminosidad</td>
+      </tr>
+      <tr class="table-primary" *ngFor="let session of sessions">
+        <th scope="row">Datos</th>
+        <td>{{session.date}}</td>
+        <td>{{session.temperature}}</td>
+        <td>{{session.luminosity}}</td>
+        <td>{{session.noise}}</td>
+      </tr>
+    </tbody>
+  </table>
