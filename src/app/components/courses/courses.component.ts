@@ -11,6 +11,7 @@ import { CoursesService } from 'src/app/services/courses.service';
 export class CoursesComponent implements OnInit {
 
   courses: any;
+  loading = false;
 
   constructor(private courseService: CoursesService, private router: Router, private authService: AuthService)  { }
 
@@ -21,7 +22,7 @@ export class CoursesComponent implements OnInit {
   showCourses() {
     this.courseService.getCourses(parseInt(this.authService.professor.id)).subscribe(results => {
       this.courses = results;
+      this.loading = true;
     });
-    console.log(this.authService.professor, "hola");
   }
 }

@@ -1,8 +1,11 @@
-<div class="content" role="main">
+<div class="content" role="main" *ngIf="loading">
   <div class="card-container" >
     <div class="card card-small" tabindex="0" [routerLink]="['/students']" [queryParams]="{ courseId: course.id}" *ngFor="let course of courses"> <!--course.id-->
-      <span>{{course.name}}</span>
-      <span>{{course.schedule}}</span>
+      <span>{{ course.name }}</span>
+      <span>{{ course.schedule }}</span>
     </div>
   </div>
+</div>
+<div class="content"  *ngIf="!loading">
+  <img style="width: 30%;" src="https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif"/>
 </div>
