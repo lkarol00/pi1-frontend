@@ -1,17 +1,18 @@
-<h1 href="#" class="list-group-item list-group-item-action active"><strong>LISTADO DE CURSOS</strong></h1>
+<div *ngIf="loading">
+  <h1 href="#" class="list-group-item list-group-item-action active"><strong>LISTADO DE CURSOS</strong></h1>
 
-<li class="list-group-item d-flex justify-content-between align-items-center" [routerLink]="['/students']" [queryParams]="{ courseId: course.id}" *ngFor="let course of courses">
-    <strong class="toast-body">
-      {{course.name}}
-      <span>{{course.schedule}}</span>
-    </strong>
-    <div>
-    <button type="button" class="btn btn-primary" >Iniciar</button>
-    <a>‎      ‏‏‎‎      ‏‏‎‎      ‏‏‎‎      ‏‏‎</a>
-    <button type="button" class="btn btn-secondary" >Repetición</button>
-    </div>
-</li>
-
+  <li class="list-group-item d-flex justify-content-between align-items-center" [routerLink]="['/students']" [queryParams]="{ courseId: course.id}" *ngFor="let course of courses">
+      <strong class="toast-body">
+        {{course.name}}
+        <span>{{course.schedule}}</span>
+      </strong>
+      <div>
+      <button type="button" class="btn btn-primary" (click)="sendMessage(course.id)">Iniciar</button>
+      <a>‎      ‏‏‎‎      ‏‏‎‎      ‏‏‎‎      ‏‏‎</a>
+      <button type="button" class="btn btn-secondary" >Repetición</button>
+      </div>
+  </li>
+</div>
 <div class="content"  *ngIf="!loading">
   <img style="width: 30%;" src="https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif"/>
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { CoursesService } from 'src/app/services/courses.service';
+import { StudentsService } from 'src/app/services/students.service';
 
 @Component({
   selector: 'app-courses',
@@ -20,9 +21,11 @@ export class CoursesComponent implements OnInit {
   "id": 21}
 ];
 
-  constructor(private courseService: CoursesService, private router: Router, private authService: AuthService)  { }
+  constructor(private courseService: CoursesService, private router: Router, private authService: AuthService,
+              private studentService: StudentsService)  { }
 
   ngOnInit(): void {
+    //this.loading = false;
     this.showCourses();
   }
 
@@ -30,6 +33,12 @@ export class CoursesComponent implements OnInit {
     this.courseService.getCourses(parseInt(this.authService.professor.id)).subscribe(results => {
       this.courses = results;
       this.loading = true;
+    });
+  }
+
+  sendMessage(courseId: number){
+    this.studentService.sendConnectMessage(courseId).subscribe(results => {
+      console.log(results);
     });
   }
 }
