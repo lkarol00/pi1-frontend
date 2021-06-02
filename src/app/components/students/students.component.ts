@@ -11,6 +11,17 @@ import { StudentsService } from '../../services/students.service';
 export class StudentsComponent implements OnInit {
 
   students: any;
+  isF : boolean = false
+  isF2 : boolean = false
+
+  students2= [ {"id":20 ,
+    "name":"Hernan",
+    "email": "asd" },
+    {"id":21 ,
+    "name":"Valentina",
+    "email": "asd" },
+
+  ];
   courses: any;
   selectedCourse:any = null;
   selection: any;

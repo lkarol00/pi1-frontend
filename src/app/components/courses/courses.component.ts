@@ -12,6 +12,13 @@ export class CoursesComponent implements OnInit {
 
   courses: any;
   loading = false;
+  courses2 = [{"name": "Historia",
+  "schedule": "MJ 8-10",
+  "id": 20},
+  {"name": "Matemáticas",
+  "schedule": "MJ 8-10",
+  "id": 21}
+];
 
   constructor(private courseService: CoursesService, private router: Router, private authService: AuthService)  { }
 
