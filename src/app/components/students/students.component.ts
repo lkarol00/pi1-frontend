@@ -15,16 +15,34 @@ export class StudentsComponent implements OnInit {
 
   students= [ {"id":20 , 
     "name":"Hernan",
-    "email": "asd" },
+    "email": "asd",
+    "temp": 30 },
     {"id":21 , 
     "name":"Valentina",
-    "email": "asd" },
+    "email": "asd",
+    "temp": 50 },
 
   ];
   courses: any;
   selectedCourse:any = null;
   selection: any;
-  sessions: any;
+  sessions=[
+    {
+      "date" : 1,
+      "temperature" : -4,
+      "luminosity" : 10,
+      "noise" : 30
+    }
+  ]
+  sessions2=[
+    {
+      "date" : 30,
+      "temperature" : 20,
+      "luminosity" : 400,
+      "noise" : 40
+    }
+  ]
+
   courseId: any;
   sub: any;
 

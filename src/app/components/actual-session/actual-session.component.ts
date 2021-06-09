@@ -13,7 +13,27 @@ export class ActualSessionComponent implements OnInit {
     name: '',
     email: ''
   };
-  sessions: any;
+  sessions=[
+    {
+      "date" : 1,
+      "temperature" : -4,
+      "luminosity" : 10,
+      "noise" : 30
+    },
+    {
+      "date" : 30,
+      "temperature" : 20,
+      "luminosity" : 400,
+      "noise" : 40
+    },
+    {
+      "date" : 51,
+      "temperature" : 36,
+      "luminosity" : 600,
+      "noise" : 86
+    }
+    
+  ];
   courseId: any;
   studentId: any;
 
