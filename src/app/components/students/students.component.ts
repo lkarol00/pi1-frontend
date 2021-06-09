@@ -10,10 +10,11 @@ import { StudentsService } from '../../services/students.service';
 })
 export class StudentsComponent implements OnInit {
 
+  students: any;
   isF : boolean = false
   isF2 : boolean = false
 
-  students= [ {"id":20 , 
+  students2= [ {"id":20 ,
     "name":"Hernan",
     "email": "asd",
     "temp": 30 },

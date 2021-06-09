@@ -30,4 +30,9 @@ export class StudentsService {
     const path = this.api + "session/?courseId=" + courseId + "&studentId=" + studentId;
     return this.http.get<any>(path);
   }
+
+  sendConnectMessage(courseId: number){
+    const path = this.api + "connect/?courseId=" + courseId;
+    return this.http.get<any>(path);
+  }
 }
