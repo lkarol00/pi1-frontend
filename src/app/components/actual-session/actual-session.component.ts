@@ -13,7 +13,7 @@ export class ActualSessionComponent implements OnInit {
     name: '',
     email: ''
   };
-  sessions=[
+  /*sessions=[
     {
       "date" : 1,
       "temperature" : -4,
@@ -32,10 +32,19 @@ export class ActualSessionComponent implements OnInit {
       "luminosity" : 600,
       "noise" : 86
     }
-    
-  ];
+
+  ];*/
+  lastSession = {
+    "date" : '',
+    "temperature" : null,
+    "luminosity" : null,
+    "noise" : null,
+    "humidity": null
+  }
+  sessions: any;
   courseId: any;
   studentId: any;
+  actualSessions: any;
 
   constructor(private studentService: StudentsService, private activatedRoute: ActivatedRoute) { }
 
@@ -61,7 +70,37 @@ export class ActualSessionComponent implements OnInit {
     this.studentService.getSessionByStudent(this.studentId, this.courseId).subscribe(results => {
       console.log(results);
       this.sessions = results;
+      this.saveLastSession();
     });
   }
 
+  saveLastSession(){
+    var startDate = new Date(Date.parse(localStorage.getItem('startDate') || "null"));
+    this.actualSessions = this.sessions.filter((a:any) => {
+      var date = new Date(a.date);
+      return (date >= startDate);
+    })/*.then(() => {
+      this.calculateMobileAverage();
+    });*/
+
+  }
+
+  calculateMobileAverage(){
+    this.actualSessions
+    this.actualSessions
+    var length = Object.keys(this.actualSessions).length;
+    var register = 0;
+    var humidity = [], luminosity = [], noise = [], temperature = [];
+    console.log(this.actualSessions, "Hola", length);
+
+    while(register < 10){
+      humidity.push(this.actualSessions[length - register].humidity)
+      luminosity.push(this.actualSessions[length - register].luminosity)
+      noise.push(this.actualSessions[length - register].noise)
+      temperature.push(this.actualSessions[length - register].temperature)
+      register++;
+    }
+    console.log(humidity, luminosity, noise, temperature);
+
+  }
 }

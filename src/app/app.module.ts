@@ -13,6 +13,15 @@ import { LoginComponent } from './components/login/login.component';
 import { ActualSessionComponent } from './components/actual-session/actual-session.component';
 import { LastSessionComponent } from './components/last-session/last-session.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { environment as env } from '../environments/environment';
+
+export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+    hostname: env.mqtt.server,
+    port: env.mqtt.port,
+    protocol: (env.mqtt.protocol === "wss") ? "wss" : "ws",
+    path: env.mqtt.path,
+};
 
 @NgModule({
   declarations: [
@@ -27,7 +36,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
   ],
   providers: [StudentsService, CoursesService],
   bootstrap: [AppComponent]

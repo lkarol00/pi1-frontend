@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from 'src/app/services/courses.service';
 import { StudentsService } from '../../services/students.service';
+import { Subscription } from 'rxjs';
+import { EventMqttService } from '../../services/event.mqtt.service';
+import { IMqttMessage } from "ngx-mqtt";
 
 @Component({
   selector: 'app-students',
@@ -9,6 +12,10 @@ import { StudentsService } from '../../services/students.service';
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
+
+  events: any = [];
+  deviceId: string = '';
+  subscription: Subscription;
 
   students: any;
   isF : boolean = false
@@ -18,7 +25,7 @@ export class StudentsComponent implements OnInit {
     "name":"Hernan",
     "email": "asd",
     "temp": 30 },
-    {"id":21 , 
+    {"id":21 ,
     "name":"Valentina",
     "email": "asd",
     "temp": 50 },
@@ -47,8 +54,12 @@ export class StudentsComponent implements OnInit {
   courseId: any;
   sub: any;
 
+  //@Output()
+  //toggle = new EventEmitter<any>();
+
   constructor(private studentService: StudentsService, private courseService: CoursesService,
-              private activatedRoute: ActivatedRoute, private router: Router)  { }
+              private activatedRoute: ActivatedRoute, private router: Router,
+              private readonly eventMqtt: EventMqttService)  { }
 
   ngOnInit(): void {
     //this.showCourses();
@@ -60,6 +71,7 @@ export class StudentsComponent implements OnInit {
               this.courseId = +params['courseId'] || 0;
               this.showStudentsByCourse(this.courseId);
             });
+    this.subscribeToTopic();
   }
 
   showStudents() {
@@ -89,6 +101,27 @@ export class StudentsComponent implements OnInit {
         console.log(results);
         this.sessions = results;
       });
+    }
+  }
+
+  private subscribeToTopic() {
+      this.subscription = this.eventMqtt.topic(this.deviceId)
+          .subscribe((data: IMqttMessage) => {
+            let item = JSON.parse(data.payload.toString());
+            console.log(item);
+            this.events.push(item);
+            console.log(this.events);
+            //this.toggle.emit(this.events);
+          });
+  }
+
+  /*onToggle(event: Event){
+
+  }*/
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+        this.subscription.unsubscribe();
     }
   }
 

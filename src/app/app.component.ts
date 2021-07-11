@@ -9,4 +9,10 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'pi1-frontend';
+  personId = localStorage.getItem('personId');
+
+  logOut(){
+    localStorage.setItem('personId', 'null');
+  }
+
 }

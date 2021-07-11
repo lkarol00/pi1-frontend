@@ -1,16 +1,16 @@
 <li class="list-group-item d-flex justify-content-between align-items-center" tabindex="0" [routerLink]="['/actual-session']" [queryParams]="{ courseId: courseId, studentId: student.id}" *ngFor="let student of students" >
-    
-    <img *ngIf="student.temp <= 0 " src="../../assets/imgs/student3.png"  slot = "start">
-    <img *ngIf="student.temp > 0 && student.temp < 35 " src="../../assets/imgs/student2.png"  slot = "start"> 
-    <img *ngIf="student.temp >= 35 " src="../../assets/imgs/student1.png"  slot = "start"> 
 
-    {{student.name}} 
+    <img *ngIf="student.noise <= 0 " src="../../assets/imgs/student3.png"  slot = "start">
+    <img *ngIf="student.noise > 0 && student.noise < 35 " src="../../assets/imgs/student2.png"  slot = "start">
+    <img *ngIf="student.noise >= 35 " src="../../assets/imgs/student1.png"  slot = "start">
 
-    <img *ngIf="student.temp <= 0 " src="../../assets/imgs/thermo3.png"  slot = "start">
-    <img *ngIf="student.temp > 0 && student.temp < 35 " src="../../assets/imgs/thermo2.png"  slot = "start"> 
-    <img *ngIf="student.temp >= 35 " src="../../assets/imgs/thermo1.png"  slot = "start">    ⠀⠀
-          
-    Temperatura : {{student.temp}}
-    
+    {{student.name}}
+
+    <img *ngIf="student.noise <= 0 " src="../../assets/imgs/speak3.png"  slot = "start">
+    <img *ngIf="student.noise > 0 && student.noise < 35 " src="../../assets/imgs/speak2.png"  slot = "start">
+    <img *ngIf="student.noise >= 35 " src="../../assets/imgs/speak1.png"  slot = "start">    ⠀⠀
+
+    Ruido : {{student.noise}}
+    Eventos: {{events}}
     <button type="button" class="btn btn-primary" (click)="isF2=!isF2" >Ver perfil</button>
 </li>

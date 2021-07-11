@@ -27,6 +27,7 @@ export class AuthService {
       this.professor.email = res[0].email;
       this.professor.name = res[0].name;
       this.professor.id = res[0].id;
+      localStorage.setItem('personId', res[0].id);
     });
 
     return this.http.post<any>(path, body);

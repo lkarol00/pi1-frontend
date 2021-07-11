@@ -30,13 +30,16 @@ export class CoursesComponent implements OnInit {
   }
 
   showCourses() {
-    this.courseService.getCourses(parseInt(this.authService.professor.id)).subscribe(results => {
+    let personId = localStorage.getItem('personId') || "-1";
+    this.courseService.getCourses(parseInt(personId)).subscribe(results => {
       this.courses = results;
       this.loading = true;
     });
   }
 
   sendMessage(courseId: number){
+    let startDate = new Date();
+    localStorage.setItem('startDate', startDate.toString());
     this.studentService.sendConnectMessage(courseId).subscribe(results => {
       console.log(results);
     });
