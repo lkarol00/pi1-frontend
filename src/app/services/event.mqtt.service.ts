@@ -10,7 +10,7 @@ export class EventMqttService {
   private endpoint: string;
 
   constructor( private _mqttService: MqttService ) {
-    this.endpoint = 'estudiante/2';
+    this.endpoint = 'data';
   }
 
   topic(deviceId: string): Observable<IMqttMessage> {

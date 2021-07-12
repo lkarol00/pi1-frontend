@@ -13,7 +13,14 @@ import { IMqttMessage } from "ngx-mqtt";
 })
 export class StudentsComponent implements OnInit {
 
-  events: any = [];
+  //data: any = [{'courseId': '', 'message': ''}];
+  data: any = {"2":{
+      'humidity': [0],
+      'luminosity': [0],
+      'temperature': [3],
+      'noise': [4],
+      'mean': 0
+  }};
   deviceId: string = '';
   subscription: Subscription;
 
@@ -106,18 +113,39 @@ export class StudentsComponent implements OnInit {
 
   private subscribeToTopic() {
       this.subscription = this.eventMqtt.topic(this.deviceId)
-          .subscribe((data: IMqttMessage) => {
-            let item = JSON.parse(data.payload.toString());
+          .subscribe((message: IMqttMessage) => {
+            let item = JSON.parse(message.payload.toString());
             console.log(item);
-            this.events.push(item);
-            console.log(this.events);
-            //this.toggle.emit(this.events);
+            this.saveInformation(item);
           });
   }
 
-  /*onToggle(event: Event){
 
-  }*/
+  saveInformation(result: any){
+    if( !this.data.hasOwnProperty(result.studentId) ) {
+
+      var schema = {
+        'humidity': [result.humidity],
+        'luminosity': [result.luminosity],
+        'temperature': [result.temperature],
+        'noise': [result.noise],
+        'mean': result.noise
+      }
+
+      this.data[result.studentId] = schema;
+      console.log(this.data);
+    } else {
+      let avg = this.data[result.studentId].noise.reduce((a:any,b:any)=>a + b, 0);
+      this.data[result.studentId].humidity.push(result.humidity);
+      this.data[result.studentId].luminosity.push(result.luminosity);
+      this.data[result.studentId].temperature.push(result.temperature);
+      this.data[result.studentId].noise.push(result.noise);
+      this.data[result.studentId].mean = avg;
+      console.log(this.data);
+
+    }
+
+  }
 
   ngOnDestroy(): void {
     if (this.subscription) {
