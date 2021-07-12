@@ -59,10 +59,6 @@ export class StudentsComponent implements OnInit {
   ]
 
   courseId: any;
-  sub: any;
-
-  //@Output()
-  //toggle = new EventEmitter<any>();
 
   constructor(private studentService: StudentsService, private courseService: CoursesService,
               private activatedRoute: ActivatedRoute, private router: Router,
@@ -135,11 +131,11 @@ export class StudentsComponent implements OnInit {
       this.data[result.studentId] = schema;
       console.log(this.data);
     } else {
-      let avg = this.data[result.studentId].noise.reduce((a:any,b:any)=>a + b, 0);
       this.data[result.studentId].humidity.push(result.humidity);
       this.data[result.studentId].luminosity.push(result.luminosity);
       this.data[result.studentId].temperature.push(result.temperature);
       this.data[result.studentId].noise.push(result.noise);
+      let avg = this.data[result.studentId].noise.reduce((a:any,b:any)=>a + b, 0) / this.data[result.studentId].noise.length;
       this.data[result.studentId].mean = avg;
       console.log(this.data);
 
