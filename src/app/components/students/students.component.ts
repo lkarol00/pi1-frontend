@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from 'src/app/services/courses.service';
 import { StudentsService } from '../../services/students.service';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { EventMqttService } from '../../services/event.mqtt.service';
 import { IMqttMessage } from "ngx-mqtt";
 
@@ -13,14 +14,7 @@ import { IMqttMessage } from "ngx-mqtt";
 })
 export class StudentsComponent implements OnInit {
 
-  //data: any = [{'courseId': '', 'message': ''}];
-  data: any = {"2":{
-      'humidity': [0],
-      'luminosity': [0],
-      'temperature': [3],
-      'noise': [4],
-      'mean': 0
-  }};
+  data: any = {};
   deviceId: string = '';
   subscription: Subscription;
 
@@ -28,53 +22,31 @@ export class StudentsComponent implements OnInit {
   isF : boolean = false
   isF2 : boolean = false
 
-  students2= [ {"id":20 ,
-    "name":"Hernan",
-    "email": "asd",
-    "temp": 30 },
-    {"id":21 ,
-    "name":"Valentina",
-    "email": "asd",
-    "temp": 50 },
-
-  ];
   courses: any;
+  sessions: any;
   selectedCourse:any = null;
   selection: any;
-  sessions=[
-    {
-      "date" : 1,
-      "temperature" : -4,
-      "luminosity" : 10,
-      "noise" : 30
-    }
-  ]
-  sessions2=[
-    {
-      "date" : 30,
-      "temperature" : 20,
-      "luminosity" : 400,
-      "noise" : 40
-    }
-  ]
 
   courseId: any;
 
+  subscription2: Subscription;
+
+  key: string = 'student.mean';
+  reverse: boolean = false;
+
   constructor(private studentService: StudentsService, private courseService: CoursesService,
-              private activatedRoute: ActivatedRoute, private router: Router,
-              private readonly eventMqtt: EventMqttService)  { }
+              private activatedRoute: ActivatedRoute, private router: Router)  { }
 
   ngOnInit(): void {
-    //this.showCourses();
-    //this.showStudents();
     this.activatedRoute
             .queryParams
             .subscribe(params => {
               // Defaults to 0 if no query param provided.
               this.courseId = +params['courseId'] || 0;
               this.showStudentsByCourse(this.courseId);
+              //this.subscribeToTopic();
             });
-    this.subscribeToTopic();
+
   }
 
   showStudents() {
@@ -88,12 +60,31 @@ export class StudentsComponent implements OnInit {
     this.selectedCourse = courseId;
     this.studentService.getStudentsByCourse(courseId).subscribe(results => {
       this.students = results;
-    });
-  }
+      console.log(results);
+      this.students.forEach((element: any) => {
+        this.data[element.id] = {
+          'mean': 0
+        };
+        this.subscription = timer(0, 5000).pipe(
+          switchMap(() => this.studentService.getLastsSessionByStudent(element.id, this.courseId))
+        ).subscribe(results => {
+          console.log(element.id, results);
+          var total = 0;
+          var avg = results.forEach((element: any) => {
+            total = total + element.noise;
+          });
 
-  showCourses() {
-    this.courseService.getCourses(1).subscribe(results => {
-      this.courses = results;
+          this.data[element.id] = {
+            'mean': total / results.length || 0
+          };
+
+          this.students[element.id].mean = total / results.length || 0;
+
+          // this.sort('mean');
+
+
+        });
+      });
     });
   }
 
@@ -107,41 +98,42 @@ export class StudentsComponent implements OnInit {
     }
   }
 
-  private subscribeToTopic() {
+  sort(key: string){
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
+
+  /*private subscribeToTopic() {
       this.subscription = this.eventMqtt.topic(this.deviceId)
           .subscribe((message: IMqttMessage) => {
             let item = JSON.parse(message.payload.toString());
             console.log(item);
             this.saveInformation(item);
           });
-  }
+  }*/
 
 
-  saveInformation(result: any){
-    if( !this.data.hasOwnProperty(result.studentId) ) {
-
-      var schema = {
-        'humidity': [result.humidity],
-        'luminosity': [result.luminosity],
-        'temperature': [result.temperature],
-        'noise': [result.noise],
-        'mean': result.noise
-      }
-
-      this.data[result.studentId] = schema;
-      console.log(this.data);
-    } else {
-      this.data[result.studentId].humidity.push(result.humidity);
-      this.data[result.studentId].luminosity.push(result.luminosity);
-      this.data[result.studentId].temperature.push(result.temperature);
-      this.data[result.studentId].noise.push(result.noise);
-      let avg = this.data[result.studentId].noise.reduce((a:any,b:any)=>a + b, 0) / this.data[result.studentId].noise.length;
-      this.data[result.studentId].mean = avg;
-      console.log(this.data);
-
+  /*saveInformation(result: any){
+    if (this.data[result.studentId].noise.length === 10){
+      this.data[result.studentId].noise.splice(0, 1);
     }
+    var storage = localStorage.getItem(result.studentId) || "-1";
+    var data_json = JSON.parse(storage.toString());
 
-  }
+    if (data_json.noise.length === 10){
+      data_json[result.studentId].noise.splice(0, 1);
+    }
+    data_json.noise.push(result.noise);
+    let avg2 = data_json.noise.reduce((a:any,b:any)=>a + b, 0) / data_json.noise.length;
+    data_json.mean = avg2;
+    localStorage.setItem(result.studentId, JSON.stringify(data_json));
+
+    this.data[result.studentId].noise.push(result.noise);
+    let avg = this.data[result.studentId].noise.reduce((a:any,b:any)=>a + b, 0) / this.data[result.studentId].noise.length;
+    this.data[result.studentId].mean = avg;
+    console.log(this.data);
+
+  }*/
 
   ngOnDestroy(): void {
     if (this.subscription) {

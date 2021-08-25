@@ -14,6 +14,7 @@ import { ActualSessionComponent } from './components/actual-session/actual-sessi
 import { LastSessionComponent } from './components/last-session/last-session.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { Ng2OrderModule } from 'ng2-order-pipe';
 import { environment as env } from '../environments/environment';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
@@ -38,6 +39,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     HttpClientModule,
     ReactiveFormsModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    Ng2OrderModule
   ],
   providers: [StudentsService, CoursesService],
   bootstrap: [AppComponent]

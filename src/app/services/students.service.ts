@@ -31,6 +31,20 @@ export class StudentsService {
     return this.http.get<any>(path);
   }
 
+  getCurrentSessionByStudent(studentId: number, courseId: number){
+    var sessionDate = localStorage.getItem("startDate");
+    const path = this.api + "actual-session/?courseId=" + courseId + "&studentId=" + studentId
+                  + "&sessionDate=" + sessionDate;
+    return this.http.get<any>(path);
+  }
+
+  getLastsSessionByStudent(studentId: number, courseId: number){
+    var sessionDate = localStorage.getItem("startDate");
+    const path = this.api + "student/last-sessions?courseId=" + courseId + "&studentId=" + studentId
+                  + "&sessionDate=" + sessionDate;
+    return this.http.get<any>(path);
+  }
+
   sendConnectMessage(courseId: number){
     const path = this.api + "connect/?courseId=" + courseId;
     return this.http.get<any>(path);
