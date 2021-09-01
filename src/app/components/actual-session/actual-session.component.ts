@@ -40,7 +40,7 @@ export class ActualSessionComponent implements OnInit {
       this.getStudentInformation();
     });
 
-    this.subscription = timer(0, 10000).pipe(
+    this.subscription = timer(0, 5000).pipe(
       switchMap(() => this.studentService.getCurrentSessionByStudent(this.studentId, this.courseId))
     ).subscribe(results => this.sessions = results);
   }

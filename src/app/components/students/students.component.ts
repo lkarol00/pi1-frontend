@@ -30,6 +30,7 @@ export class StudentsComponent implements OnInit {
   courseId: any;
 
   subscription2: Subscription;
+  private subscriptions: Array<Subscription> = [];
 
   key: string = 'student.mean';
   reverse: boolean = false;
@@ -65,25 +66,24 @@ export class StudentsComponent implements OnInit {
         this.data[element.id] = {
           'mean': 0
         };
-        this.subscription = timer(0, 5000).pipe(
+        this.subscriptions.push( timer(0, 10000).pipe(
           switchMap(() => this.studentService.getLastsSessionByStudent(element.id, this.courseId))
         ).subscribe(results => {
           console.log(element.id, results);
           var total = 0;
-          var avg = results.forEach((element: any) => {
+          /*var avg = results.forEach((element: any) => {
             total = total + element.noise;
-          });
-
+          });*/
           this.data[element.id] = {
-            'mean': total / results.length || 0
+            'mean': results.mean  // total / results.length|| 0   results[0].noise
           };
 
-          this.students[element.id].mean = total / results.length || 0;
-
+          // this.students[element.id].mean = total / results.length || 0;
+          console.log(this.data);
           // this.sort('mean');
 
 
-        });
+        }));
       });
     });
   }
@@ -136,9 +136,10 @@ export class StudentsComponent implements OnInit {
   }*/
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-        this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+  });
+    console.log(typeof(this.subscription));
   }
 
 }
