@@ -4,8 +4,6 @@ import { CoursesService } from 'src/app/services/courses.service';
 import { StudentsService } from '../../services/students.service';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { EventMqttService } from '../../services/event.mqtt.service';
-import { IMqttMessage } from "ngx-mqtt";
 
 @Component({
   selector: 'app-students',
@@ -15,7 +13,6 @@ import { IMqttMessage } from "ngx-mqtt";
 export class StudentsComponent implements OnInit {
 
   data: any = {};
-  deviceId: string = '';
   subscription: Subscription;
 
   students: any;
@@ -29,11 +26,10 @@ export class StudentsComponent implements OnInit {
 
   courseId: any;
 
-  subscription2: Subscription;
   private subscriptions: Array<Subscription> = [];
 
-  key: string = 'student.mean';
-  reverse: boolean = false;
+  key: string = 'mean';
+  reverse: boolean = true;
 
   constructor(private studentService: StudentsService, private courseService: CoursesService,
               private activatedRoute: ActivatedRoute, private router: Router)  { }
@@ -45,7 +41,6 @@ export class StudentsComponent implements OnInit {
               // Defaults to 0 if no query param provided.
               this.courseId = +params['courseId'] || 0;
               this.showStudentsByCourse(this.courseId);
-              //this.subscribeToTopic();
             });
 
   }
@@ -70,19 +65,16 @@ export class StudentsComponent implements OnInit {
           switchMap(() => this.studentService.getLastsSessionByStudent(element.id, this.courseId))
         ).subscribe(results => {
           console.log(element.id, results);
-          var total = 0;
-          /*var avg = results.forEach((element: any) => {
-            total = total + element.noise;
-          });*/
           this.data[element.id] = {
-            'mean': results.mean  // total / results.length|| 0   results[0].noise
+            'mean': results.mean
           };
-
-          // this.students[element.id].mean = total / results.length || 0;
-          console.log(this.data);
-          // this.sort('mean');
-
-
+          var index = this.students.findIndex((post: any, index: any) => {
+            if(post.id == element.id)
+              return true;
+          });
+          this.students[index].mean = results.mean;
+          this.students[index].meanAux = results.mean;
+          this.sort();
         }));
       });
     });
@@ -92,54 +84,23 @@ export class StudentsComponent implements OnInit {
     this.selection = studentId;
     if(this.selectedCourse != null){
       this.studentService.getSessionByStudent(studentId, this.selectedCourse).subscribe(results => {
-        console.log(results);
         this.sessions = results;
       });
     }
   }
 
-  sort(key: string){
-    this.key = key;
-    this.reverse = !this.reverse;
+  sort(){
+    if (this.key === "mean"){
+      this.key = "meanAux";
+    } else {
+      this.key = "mean";
+    }
   }
-
-  /*private subscribeToTopic() {
-      this.subscription = this.eventMqtt.topic(this.deviceId)
-          .subscribe((message: IMqttMessage) => {
-            let item = JSON.parse(message.payload.toString());
-            console.log(item);
-            this.saveInformation(item);
-          });
-  }*/
-
-
-  /*saveInformation(result: any){
-    if (this.data[result.studentId].noise.length === 10){
-      this.data[result.studentId].noise.splice(0, 1);
-    }
-    var storage = localStorage.getItem(result.studentId) || "-1";
-    var data_json = JSON.parse(storage.toString());
-
-    if (data_json.noise.length === 10){
-      data_json[result.studentId].noise.splice(0, 1);
-    }
-    data_json.noise.push(result.noise);
-    let avg2 = data_json.noise.reduce((a:any,b:any)=>a + b, 0) / data_json.noise.length;
-    data_json.mean = avg2;
-    localStorage.setItem(result.studentId, JSON.stringify(data_json));
-
-    this.data[result.studentId].noise.push(result.noise);
-    let avg = this.data[result.studentId].noise.reduce((a:any,b:any)=>a + b, 0) / this.data[result.studentId].noise.length;
-    this.data[result.studentId].mean = avg;
-    console.log(this.data);
-
-  }*/
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
-  });
-    console.log(typeof(this.subscription));
+    });
   }
 
 }

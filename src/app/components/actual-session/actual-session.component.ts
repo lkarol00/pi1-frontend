@@ -15,13 +15,6 @@ export class ActualSessionComponent implements OnInit {
     name: '',
     email: ''
   };
-  lastSession = {
-    "date" : '',
-    "temperature" : null,
-    "luminosity" : null,
-    "noise" : null,
-    "humidity": null
-  }
   sessions: any;
   courseId: any;
   studentId: any;
@@ -49,18 +42,11 @@ export class ActualSessionComponent implements OnInit {
     this.studentService.getStudent(this.studentId).subscribe(results => {
       this.student.name = results[0].name;
       this.student.email = results[0].email;
-      //this.showSessionsByStudent();
     });
   }
 
   showSessionsByStudent(){
-    /*this.studentService.getSessionByStudent(this.studentId, this.courseId).subscribe(results => {
-      console.log(results);
-      this.sessions = results;
-      this.saveLastSession();
-    });*/
     this.studentService.getCurrentSessionByStudent(this.studentId, this.courseId).subscribe(results => {
-      console.log(results);
       this.sessions = results;
     })
   }

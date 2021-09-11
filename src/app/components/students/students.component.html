@@ -1,5 +1,4 @@
-<!--<li class="list-group-item d-flex justify-content-between align-items-center" tabindex="0" [routerLink]="['/actual-session']" [queryParams]="{ courseId: courseId, studentId: student.id}" *ngFor="let student of students" >-->
-<li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let student of students " tabindex="0" [routerLink]="['/actual-session']" matSort [queryParams]="{ courseId: courseId, studentId: student.id}"  >
+<li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let student of students | orderBy: key: reverse" tabindex="0" [routerLink]="['/actual-session']"  [queryParams]="{ courseId: courseId, studentId: student.id}"  >
     <img *ngIf="data[student.id].mean <= 0 " src="../../assets/imgs/student3.png"  slot = "start">
     <img *ngIf="data[student.id].mean > 0 && data[student.id].mean < 35 " src="../../assets/imgs/student2.png"  slot = "start">
     <img *ngIf="data[student.id].mean >= 35 " src="../../assets/imgs/student1.png"  slot = "start">
