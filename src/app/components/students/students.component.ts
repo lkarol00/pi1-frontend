@@ -56,15 +56,13 @@ export class StudentsComponent implements OnInit {
     this.selectedCourse = courseId;
     this.studentService.getStudentsByCourse(courseId).subscribe(results => {
       this.students = results;
-      console.log(results);
       this.students.forEach((element: any) => {
         this.data[element.id] = {
           'mean': 0
         };
-        this.subscriptions.push( timer(0, 10000).pipe(
+        this.subscriptions.push( timer(0, 7000).pipe(
           switchMap(() => this.studentService.getLastsSessionByStudent(element.id, this.courseId))
         ).subscribe(results => {
-          console.log(element.id, results);
           this.data[element.id] = {
             'mean': results.mean
           };
@@ -75,18 +73,10 @@ export class StudentsComponent implements OnInit {
           this.students[index].mean = results.mean;
           this.students[index].meanAux = results.mean;
           this.sort();
+          console.log(this.students);
         }));
       });
     });
-  }
-
-  showSessionsByStudent(studentId: number){
-    this.selection = studentId;
-    if(this.selectedCourse != null){
-      this.studentService.getSessionByStudent(studentId, this.selectedCourse).subscribe(results => {
-        this.sessions = results;
-      });
-    }
   }
 
   sort(){

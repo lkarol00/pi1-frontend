@@ -11,7 +11,6 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesService } from './services/courses.service';
 import { LoginComponent } from './components/login/login.component';
 import { ActualSessionComponent } from './components/actual-session/actual-session.component';
-import { LastSessionComponent } from './components/last-session/last-session.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
 import { Ng2OrderModule } from 'ng2-order-pipe';
@@ -31,7 +30,6 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     CoursesComponent,
     LoginComponent,
     ActualSessionComponent,
-    LastSessionComponent,
   ],
   imports: [
     BrowserModule,

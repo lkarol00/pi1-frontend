@@ -1,32 +1,35 @@
-<a style="color: black;" *ngIf=student.email>Email: {{student.email}}</a> <hr>
-  <h1 href="#" class="list-group-item list-group-item-action active"><strong>NOMBRE: {{student.name}}</strong></h1>
-  <table class="table table-hover" >
-    <tbody>
-      <tr class="table-secondary">
-        <th scope="row">Fecha</th>
-        <td>Humedad</td>
-        <td>Temperatura</td>
-        <td>Luminosidad</td>
-        <td>Ruido</td>
-      </tr>
-      <tr class="table-primary" *ngFor="let session of sessions">
-        <th scope="row">{{session.date}}</th>
-        <td><img *ngIf="session.humidity < 30 " src="../../assets/imgs/tear3.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.humidity >= 30 && 50 > session.humidity " src="../../assets/imgs/tear2.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.humidity >= 50 " src="../../assets/imgs/tear1.png" alt={{student.name}} slot = "start">
-          {{session.humidity}}</td>
-        <td><img *ngIf="session.temperature <= 0 " src="../../assets/imgs/thermo3.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.temperature > 0 && session.temperature < 35 " src="../../assets/imgs/thermo2.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.temperature >= 35 " src="../../assets/imgs/thermo1.png" alt={{student.name}} slot = "start">    ⠀⠀
-          {{session.temperature}}</td>
-        <td><img *ngIf="session.luminosity < 300 " src="../../assets/imgs/light3.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.luminosity >= 300 && session.luminosity < 500 " src="../../assets/imgs/light2.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.luminosity >= 500 " src="../../assets/imgs/light1.png" alt={{student.name}} slot = "start">   ⠀⠀
-          {{session.luminosity}}</td>
-        <td><img *ngIf="session.noise < 50 " src="../../assets/imgs/speak3.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.noise >= 50 && session.noise < 85 " src="../../assets/imgs/speak2.png" alt={{student.name}} slot = "start">
-            <img *ngIf="session.noise > 85 " src="../../assets/imgs/speak1.png" alt={{student.name}} slot = "start"> ⠀⠀
-          {{session.noise}}</td>
-      </tr>
-    </tbody>
-  </table>
+<h1 href="#" class="list-group-item list-group-item-action active">
+  <strong>NOMBRE: {{student.name}}</strong>
+  <br>
+  <a style="font-size:medium;"> <strong>EMAIL: {{student.email}}</strong></a>
+</h1>
+
+<table class="table table-hover" >
+  <tbody>
+    <tr class="table-secondary">
+      <th scope="row">Fecha</th>
+      <td>Humedad</td>
+      <td>Temperatura</td>
+      <td>Ruido</td>
+    </tr>
+    <tr class="table-primary" *ngFor="let session of sessions">
+      <th scope="row">{{session.date}}
+        <img *ngIf="session.noise <= 0 " src="../../assets/imgs/student3.png"  slot = "start">
+        <img *ngIf="session.noise > 0 && session.noise < 35 " src="../../assets/imgs/student2.png"  slot = "start">
+        <img *ngIf="session.noise >= 35 " src="../../assets/imgs/student1.png"  slot = "start">
+      </th>
+      <td><img *ngIf="session.humidity < 30 " src="../../assets/imgs/tear3.png" alt={{student.name}} slot = "start">
+          <img *ngIf="session.humidity >= 30 && 50 > session.humidity " src="../../assets/imgs/tear2.png" alt={{student.name}} slot = "start">
+          <img *ngIf="session.humidity >= 50 " src="../../assets/imgs/tear1.png" alt={{student.name}} slot = "start">
+        {{session.humidity}} %</td>
+      <td><img *ngIf="session.temperature <= 0 " src="../../assets/imgs/thermo3.png" alt={{student.name}} slot = "start">
+          <img *ngIf="session.temperature > 0 && session.temperature < 35 " src="../../assets/imgs/thermo2.png" alt={{student.name}} slot = "start">
+          <img *ngIf="session.temperature >= 35 " src="../../assets/imgs/thermo1.png" alt={{student.name}} slot = "start">    ⠀⠀
+        {{session.temperature}} °C</td>
+      <td><img *ngIf="session.noise < 50 " src="../../assets/imgs/speak3.png" alt={{student.name}} slot = "start">
+          <img *ngIf="session.noise >= 50 && session.noise < 85 " src="../../assets/imgs/speak2.png" alt={{student.name}} slot = "start">
+          <img *ngIf="session.noise > 85 " src="../../assets/imgs/speak1.png" alt={{student.name}} slot = "start"> ⠀⠀
+        {{session.noise}} dB</td>
+    </tr>
+  </tbody>
+</table>
